@@ -5,7 +5,7 @@ info:
 # during dev, should point to your local machine
 host: localhost:10020
 # basePath prefixes all resource paths
-basePath: /residenceService
+basePath: /apiService
 #
 schemes:
   - http
@@ -22,12 +22,12 @@ securityDefinitions:
     name: api_key
 paths:
 
-  /residentDropdownValues:
-    x-swagger-router-controller: residentController
+  /getPreferenceValues:
+    x-swagger-router-controller: preferenceController
     get:
       # security:
       #   - api_key: [ ]
-      operationId: getResidentDropdownValues
+      operationId: getPreferenceValues
       parameters:
         - name: project_id
           type: string
@@ -49,144 +49,6 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  Resident:
-    required:
-    - first_name
-    - last_name
-    - preferred_name
-    - dob
-    - gender
-    - is_married
-    - mobile
-    - email
-    - identificationUpdated
-    # - identification
-    - unit_no
-    - wing_id
-    - is_rented
-    - is_resident
-    - is_owner
-    properties:
-      entity_id:
-        type: number
-      user_id:
-        type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-      middle_name:
-        type: string
-      preferred_name:
-        type: string
-      dob:
-        type: string
-      gender:
-        type: number
-      is_married:
-        type: number
-      occupation:
-        type: string
-      mobile:
-        type: number
-      email:
-        type: string
-      is_resident:
-        type: number
-      address2:
-        type: string
-      unit_id:
-        type: number
-      unit_mapping_id:
-        type: number
-      unit_no:
-        type: string
-      wing_id:
-        type: number
-      is_resident_type_updated:
-        type: boolean
-      resident_type:
-        type: number
-      lease_startdt:
-        type: string
-      tot_mnthagreement:
-        type: number
-      owner_reltnship:
-        type: number
-      identificationUpdated:
-        type: boolean
-      is_rented:
-        type: number
-      is_owner:
-        type: number
-      identification:
-        type: array
-        items:
-          $ref: '#/definitions/Identification'
-  Identification:
-    required:
-    - ddlentity_type
-    - document_no
-    properties:
-      doc_id:
-        type: number
-      ddlentity_type:
-        type: number
-      document_no:
-        type: string
-      image:
-        type: string
-  ResidentFamily:
-    required:
-    - first_name
-    - last_name 
-    - dob
-    - gender
-    - is_married
-    - mobile
-    - email
-    - unit_id
-    - is_owner
-    - is_rented
-    - is_resident
-    - owner_reltnship
-    properties:
-      user_id:
-        type: string
-      first_name:
-        type: string
-      last_name:
-        type: string
-      middle_name:
-        type: string
-      preferred_name:
-        type: string
-      dob:
-        type: string
-      gender:
-        type: number
-      is_married:
-        type: number
-      occupation:
-        type: string
-      mobile:
-        type: number
-      email:
-        type: string
-      is_resident:
-        type: number
-      is_owner:
-        type: number
-      is_rented:
-        type: number
-      address2:
-        type: string
-      unit_id:
-        type: number
-      unit_mapping_id:
-        type: number
-      owner_reltnship:
-        type: number
   DVSuccessResponse:
     description: HTTP 200 success response. This is used for all success responses.
     properties:
