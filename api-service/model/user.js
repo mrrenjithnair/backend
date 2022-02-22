@@ -12,12 +12,12 @@ const pinVault = encryptedField(sequelize, systemConfig.db.blobEncryptionKey);
 
 const user = db.define('user', {
 
-    user_id: {
+    id: {
         type: sequelize.UUID,
         defaultValue: sequelize.UUIDV4,
         primaryKey: true
     },
-    first_name: {
+    firstName: {
         type: sequelize.STRING,
         allowNull: false,
         validate: {
@@ -27,7 +27,7 @@ const user = db.define('user', {
             }
         }
     },
-    last_name: {
+    lastName: {
         type: sequelize.STRING,
         allowNull: false,
         validate: {

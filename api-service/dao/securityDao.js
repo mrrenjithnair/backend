@@ -9,6 +9,8 @@ const passwordGen = require('generate-password');
 const SPException = require('../SPException.js');
 const userDbModel = require('../model/user.js').user;
 const db = require('../db/dbConnection.js').get();
+const modelUtils = require('./../modelUtils.js');
+
 
 //Do not change this query to uppercase since it will affect the token structure
 const AUTHENTICATE_QUERY = " SELECT * FROM USER U " +
@@ -44,23 +46,15 @@ const securityDao = new function() {
             replacements: queryReplacement,
             type: db.QueryTypes.SELECT
         }).then((r) => {
+            console.log('r=====>',r)
+            // console.log(modelUtils.encrypt('renjithNair'))
             if (r.length != 1)
                 throw exceptionUtil.createSPException(config.security.invalidUserNamePasswd);
 
             try {
-                let pinFromDB = modelUtil.decryptBlob(r[0].pin);
-                r[0].pin = pinFromDB
-                let passwordFromDB = modelUtil.decryptBlob(r[0].password);
+                let passwordFromDB = r[0].password //modelUtils.decrypt(r[0].password);
+                console.log("passwordFromDB",passwordFromDB)
                 if (password == passwordFromDB) {
-                    delete r[0].password;
-                    delete r[0].otp;
-                    if(r[0].headlessUser) {
-                        if(!secret || securityConfig.security.secret !== secret) {
-                            let ex = exceptionUtil.createSPException(config.security.invalidSecret);
-                            throw ex;
-                        }
-                    }
-
                     return r;
                 } 
             } catch (error) {
@@ -70,6 +64,7 @@ const securityDao = new function() {
                 throw exceptionUtil.createSPException(config.security.invalidUserNamePasswd);
             }
         }).then((user) => {
+            console.log("user",user)
             return user
         })
     }
