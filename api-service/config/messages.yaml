@@ -19,7 +19,7 @@ global: # define all global error messages and codes here
     message: Validation error(s)
     errorCode: 101
     httpErrorCode: 400
-resident: # module name
+user: # module name
   moduleId: 2000 # module ID. Make sure it is unique across all projects.
   residentNotFound: # error message key
     message: Resident details not found. # error message
@@ -47,4 +47,26 @@ unit:
   unitNotFound:
     message: Unit details not found.
     errorCode: 50001
+    httpErrorCode: 400
+security: # module name
+  moduleId: 2000 # module ID. Make sure it is unique across all projects.
+  invalidUserNamePasswd: # error message key
+    message: Invalid username or password. # error message
+    errorCode: 20001 # module ID + error sequence number
+    httpErrorCode: 400
+  invalidTokenUser: # error message key
+    message: Invalid token. # error message
+    errorCode: 20002 # module ID + error sequence number
+    httpErrorCode: 400
+  referralSourceLocked:
+    message: Organization locked. Please contact administrator. # error message
+    errorCode: 20003 # module ID + error sequence number
+    httpErrorCode: 400
+  referralSourceInactive:
+    message: Your account has been deactivated due to a long period of inactivity. Please email Gento at staffing@gento.io to activate your account. # error message
+    errorCode: 20005 # module ID + error sequence number
+    httpErrorCode: 400
+  invalidSecret: # error message key
+    message: Invalid secret value. All headless user login request must be provided with secret value. # error message
+    errorCode: 20004 # module ID + error sequence number
     httpErrorCode: 400

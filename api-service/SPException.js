@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = DVException;
+module.exports = SPException;
 
-function DVException(message, errorCode, httpErrorCode) {
+function SPException(message, errorCode, httpErrorCode) {
     this.message = message;
     this.errorCode = errorCode;
     this.httpErrorCode = httpErrorCode;

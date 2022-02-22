@@ -2,21 +2,21 @@
 
 const _ = require('lodash');
 
-const DVException = require('./DVException.js');
+const SPException = require('./SPException.js');
 const config = require('./config.js').getMessageConfig();
 
 const exceptionUtils = new function() {
-    this.createDVException = function(configObject, addedMessage = false) {
+    this.createSPException = function(configObject, addedMessage = false) {
         var message = configObject.message + (addedMessage? ' ' + addedMessage : '')
         var errorCode = configObject.errorCode;
         var httpErrorCode = configObject.httpErrorCode;
-        return new DVException(message, errorCode, httpErrorCode);
+        return new SPException(message, errorCode, httpErrorCode);
     }
 
     this.handleException = function(err) {
         var httpErrorCode = this.getHttpErrorCode(err);
         if (err.httpErrorCode)
-            return this.createDVException(err); //This is to remove transaction context log
+            return this.createSPException(err); //This is to remove transaction context log
 
         return this.handleNonHttpException(err);
     }
@@ -50,7 +50,7 @@ const exceptionUtils = new function() {
 
         if (validationMessages.length != 0) {
             var validationConfig = config.global.sequelizeValidation;
-            return new DVException(validationMessages, validationConfig.errorCode, validationConfig.httpErrorCode);
+            return new SPException(validationMessages, validationConfig.errorCode, validationConfig.httpErrorCode);
         }
     }
 
@@ -68,7 +68,7 @@ const exceptionUtils = new function() {
         });
 
         if (validationMessages.length != 0) {
-            return new DVException(validationMessages, validationConfig.errorCode, validationConfig.httpErrorCode);
+            return new SPException(validationMessages, validationConfig.errorCode, validationConfig.httpErrorCode);
         }
     }
 
@@ -80,7 +80,7 @@ const exceptionUtils = new function() {
         if (!errorCode)
             errorCode = config.global.internalError.errorCode;
 
-        return new DVException(message, errorCode, 500);
+        return new SPException(message, errorCode, 500);
     }
 
     this.getHttpErrorCode = function(err) {

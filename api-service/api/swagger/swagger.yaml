@@ -38,21 +38,51 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/DVSuccessResponse"
+            $ref: "#/definitions/SPSuccessResponse"
         default:
           description: Error
           schema:
-            $ref: "#/definitions/DVFailureResponse"
+            $ref: "#/definitions/SPFailureResponse"
     
+  /authenticate:
+    x-swagger-router-controller: securityController
+    post:
+      description: Authenticates the user
+      operationId: authenticate
+      parameters:
+        - name: authRequest
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/AuthenticateRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+
 
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  DVSuccessResponse:
+  AuthenticateRequest:
+    required:
+    - username
+    - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  SPSuccessResponse:
     description: HTTP 200 success response. This is used for all success responses.
     properties:
       message:
         type: string
-  DVFailureResponse:
+  SPFailureResponse:
     description: Generic failure response.

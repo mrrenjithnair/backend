@@ -9,7 +9,6 @@ const noCache = require('nocache')
 }); */
 const axios = require('axios');
 
-// const logger = require('nww-core-models/utils/logUtils.js').logger;
 
 const httpUtils = new function() {
 
@@ -77,13 +76,11 @@ const httpUtils = new function() {
                 json: jsonType
             }, (err, response, body) => {
                 if (err) {
-                    // logger.error(JSON.stringify(err));
                     return reject(err);
                 }
 
                 // handle http errors
                 if (response.statusCode != 200) {
-                    // logger.error(JSON.stringify(body));
                     return reject(new Error(body));
                 }
 

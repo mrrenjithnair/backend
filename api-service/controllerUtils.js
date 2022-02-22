@@ -3,7 +3,6 @@
 const exceptionUtils = require('./exceptionUtils.js');
 // const logUtils = require('nww-core-models/utils/logUtils.js');
 const modelUtils = require('./modelUtils.js');
-// const logger = require('nww-core-models/utils/logUtils.js').logger;
 const config = require('./config.js').getMessageConfig();
 
 const controllerUtils = new function() {
@@ -16,9 +15,6 @@ const controllerUtils = new function() {
     }
 
     this.handleError = function(req, res, err, filepath = null) {
-        // logger.error(err);
-        // if (filepath)
-        //     logger.error(err, logUtils.getLogData(req, filepath));
         var exception = exceptionUtils.handleException(err);
         var httpErrorCode = (exception.httpErrorCode) ? exception.httpErrorCode : 500;
         res.status(httpErrorCode).send(exception);
@@ -29,7 +25,6 @@ const controllerUtils = new function() {
             .then(() => { //commit and send 200 reponse
                 this.handleSuccess(res);
             }).catch((err) => { //rollback and send failure response
-                // logger.error(err);
                 this.handleError(req, res, err, filename);
             });
     }
@@ -41,7 +36,6 @@ const controllerUtils = new function() {
                 res.json(model);
                 return model;
             }).catch((err) => { //rollback and send failure response
-                // logger.error(err);
                 this.handleError(req, res, err, filename);
             });
     }
