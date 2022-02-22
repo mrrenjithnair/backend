@@ -92,20 +92,7 @@ const httpUtils = new function() {
         });
     }
 
-    this.getHttpsOptions = function(environment) {
-        if (environment === 'local') {
-            return {
-                key: fs.readFileSync(path.resolve(__dirname, "certs/nww-key.pem")),
-                cert: fs.readFileSync(path.resolve(__dirname, "certs/nww-cert.pem")),
-                passphrase: 'nwwdev'
-            };
-        }
 
-        return {
-            key: fs.readFileSync(path.resolve("/opt/digivalet/certs/privkey.pem")),
-            cert: fs.readFileSync(path.resolve("/opt/digivalet/certs/fullchain.pem"))
-        };
-    }
 };
 
 module.exports = httpUtils;

@@ -1,0 +1,18 @@
+# project configuration
+# This is sample file and it is not used while running the code.
+db:
+  # DB is appended for configuration names below so that it will not conflict with OS names such as username.
+  dbname: 'sportzMitra'
+  dbusername: 'dvAdmin'
+  dbpassword: 'dvAdminPass'
+  dbhost: '127.0.0.1'
+  dbport: '3306'
+  blobEncryptionKey: 4b57a1b06a053ea9d960ac5c1f4194e5ed6a1642158932d5ea4544f8156d2380   # Generate using "openssl rand -hex 32" command.
+
+  mysqlEngine: 'InnoDB'
+  minConnectionLimit: 5
+  maxConnectionLimit: 10
+  dialect: mysql
+  idleTimeout: 1000
+  
+  
