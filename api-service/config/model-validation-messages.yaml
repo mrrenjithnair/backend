@@ -1,0 +1,58 @@
+role:
+  rolename:
+    lengthValidation: Role name must be between 5 to 100 characters length.
+  description:
+    lengthValidation: Role description must be up-to 1000 characters length.
+  privileges:
+    lengthValidation: Privileges must be up-to 5000 characters length.
+resident:
+  nameFields:
+    lengthValidation: First name and last name cannot be empty and must be up-to 25 characters length.
+  middleName:
+    lengthValidation: Middle name can be up-to 25 characters length.
+  preferredName:
+    lengthValidation: Preferred name can be up-to 25 characters length.
+  emailId:
+    validation: Invoice email ID is not valid.
+    emptyValidation: Email ID cannot be empty.
+  gender:
+    enumValidation: "Gender must be one of following values: M, F or Choose not to answer."
+  mobile:
+    lengthValidation: Mobile number must be upto 10 characters.
+  dob:
+    validation: Date of birth must be date.
+  occupation:
+    lengthValidation: Occupation can be up-to 100 characters length.
+  address2:
+    lengthValidation: Alternative address can be up-to 100 characters length.
+user:
+  nameFields:
+    lengthValidation: First name and last name cannot be empty and must be up-to 25 characters length.
+  middleName:
+    lengthValidation: Middle name can be up-to 25 characters length.
+  password:
+    lengthValidation: Password must be between 8 to 100 characters length.
+  emailId:
+    validation: Invoice email ID is not valid.
+    emptyValidation: Email ID cannot be empty.
+  mobile:
+    lengthValidation: Mobile number must be upto 10 characters.
+  preferredName:
+    lengthValidation: Preferred name can be up-to 25 characters length.
+  gender:
+    enumValidation: "Gender must be one of following values: M, F or Choose not to answer."
+  dob:
+    validation: Date of birth must be date.
+  occupation:
+    lengthValidation: Occupation can be up-to 100 characters length.
+unit:
+  unit_no:
+    lengthValidation: Unit no cannot be empty and must be up-to 20 characters length.
+  description:
+    lengthValidation: Description can be up-to 250 characters length.
+document:
+  document_no:
+    lengthValidation: Document no cannot be empty and must be up-to 20 characters length.
+address:
+  address:
+    lengthValidation: Address must be up-to 55 characters length.

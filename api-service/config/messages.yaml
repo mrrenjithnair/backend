@@ -1,0 +1,50 @@
+# This YAML configuration defines various messages (and associated error codes per module).
+# Module can be a single controller OR multiple controller grouped in logical manner.
+
+global: # define all global error messages and codes here
+  internalError:
+    message: Internal Error
+    errorCode: 99
+  success:
+    message: Successfully completed.
+  tooManyRequests:
+    message: Too many wrong passwords, please try after 10 minutes.
+    errorCode: 102
+    httpErrorCode: 429
+  uniqueValidation:
+    message: already exists.
+    errorCode: 100
+    httpErrorCode: 400
+  sequelizeValidation:
+    message: Validation error(s)
+    errorCode: 101
+    httpErrorCode: 400
+resident: # module name
+  moduleId: 2000 # module ID. Make sure it is unique across all projects.
+  residentNotFound: # error message key
+    message: Resident details not found. # error message
+    errorCode: 20001 # module ID + error sequence number
+    httpErrorCode: 400
+  residentAlreadyExists:
+    message: Resident already exist with the registered mobile number.
+    errorCode: 20002
+    httpErrorCode: 400
+category:
+  categoriesNotFound:
+    message: Category details not found.
+    errorCode: 30001
+    httpErrorCode: 400
+  subcategories:
+    message: Subcategory details not found.
+    errorCode: 30002
+    httpErrorCode: 400
+residentType:
+  residentTypeNotFound:
+    message: Resident type details not found.
+    errorCode: 40001
+    httpErrorCode: 400
+unit:
+  unitNotFound:
+    message: Unit details not found.
+    errorCode: 50001
+    httpErrorCode: 400

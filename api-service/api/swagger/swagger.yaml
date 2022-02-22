@@ -1,0 +1,380 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Residence API
+# during dev, should point to your local machine
+host: localhost:10020
+# basePath prefixes all resource paths
+basePath: /residenceService
+#
+schemes:
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: api_key
+paths:
+
+  /residentDropdownValues:
+    x-swagger-router-controller: residentController
+    get:
+      # security:
+      #   - api_key: [ ]
+      operationId: getResidentDropdownValues
+      parameters:
+        - name: project_id
+          type: string
+          in: query
+          required: false
+      description: Get onboarding related details
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+    
+  /subcategories:
+    x-swagger-router-controller: residentController
+    get:
+      # security:
+      #   - api_key: [ ]
+      operationId: getSubcategories
+      parameters:
+        - name: subcat_id
+          type: string
+          in: query
+          required: true
+        - name: search_string
+          type: string
+          in: query
+          required: false
+        - name: page_size
+          type: integer
+          in: query
+          required: true
+        - name: page_number
+          type: integer
+          in: query
+          required: true
+      description: Get categories details
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+
+  /resident:
+    x-swagger-router-controller: residentController
+    get:
+      # security:
+      #   - api_key: [ ]
+      operationId: getResident
+      parameters:
+        - name: id
+          type: string
+          in: query
+          required: true
+      description: Get resident details by id
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+    post:
+      description: insert or update resident details
+      operationId: insertOrUpdateResident
+      parameters:
+        - name: resident
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Resident"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+    delete:
+      security:
+        - api_key: [ ]
+      operationId: deleteResidentById
+      description: delete resident by ID
+      parameters:
+        - name: id
+          type: string
+          in: query
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+
+  /family:
+    x-swagger-router-controller: residentController
+    get:
+      # security:
+      #   - api_key: [ ]
+      operationId: getResidentFamilyList
+      parameters:
+        - name: unit_id
+          type: string
+          in: query
+          required: true
+        - name: search_string
+          type: string
+          in: query
+          required: false
+        - name: page_size
+          type: integer
+          in: query
+          required: true
+        - name: page_number
+          type: integer
+          in: query
+          required: true
+      description: Get resident family details
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+    post:
+      description: insert or update resident family details
+      operationId: insertOrUpdateResidentFamily
+      parameters:
+        - name: residentFamily
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/ResidentFamily"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+    delete:
+      security:
+        - api_key: [ ]
+      operationId: deleteResidentFamilyById
+      description: delete resident by ID
+      parameters:
+        - name: id
+          type: string
+          in: query
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+  /familyDetails/{user_id}:
+    x-swagger-router-controller: residentController
+    get:
+      # security:
+      #   - api_key: [ ]
+      operationId: getResidentFamilyById
+      parameters:
+        - name: user_id
+          type: string
+          in: path
+          required: true
+      description: Get resident family details
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/DVSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/DVFailureResponse"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  Resident:
+    required:
+    - first_name
+    - last_name
+    - preferred_name
+    - dob
+    - gender
+    - is_married
+    - mobile
+    - email
+    - identificationUpdated
+    # - identification
+    - unit_no
+    - wing_id
+    - is_rented
+    - is_resident
+    - is_owner
+    properties:
+      entity_id:
+        type: number
+      user_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      middle_name:
+        type: string
+      preferred_name:
+        type: string
+      dob:
+        type: string
+      gender:
+        type: number
+      is_married:
+        type: number
+      occupation:
+        type: string
+      mobile:
+        type: number
+      email:
+        type: string
+      is_resident:
+        type: number
+      address2:
+        type: string
+      unit_id:
+        type: number
+      unit_mapping_id:
+        type: number
+      unit_no:
+        type: string
+      wing_id:
+        type: number
+      is_resident_type_updated:
+        type: boolean
+      resident_type:
+        type: number
+      lease_startdt:
+        type: string
+      tot_mnthagreement:
+        type: number
+      owner_reltnship:
+        type: number
+      identificationUpdated:
+        type: boolean
+      is_rented:
+        type: number
+      is_owner:
+        type: number
+      identification:
+        type: array
+        items:
+          $ref: '#/definitions/Identification'
+  Identification:
+    required:
+    - ddlentity_type
+    - document_no
+    properties:
+      doc_id:
+        type: number
+      ddlentity_type:
+        type: number
+      document_no:
+        type: string
+      image:
+        type: string
+  ResidentFamily:
+    required:
+    - first_name
+    - last_name 
+    - dob
+    - gender
+    - is_married
+    - mobile
+    - email
+    - unit_id
+    - is_owner
+    - is_rented
+    - is_resident
+    - owner_reltnship
+    properties:
+      user_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      middle_name:
+        type: string
+      preferred_name:
+        type: string
+      dob:
+        type: string
+      gender:
+        type: number
+      is_married:
+        type: number
+      occupation:
+        type: string
+      mobile:
+        type: number
+      email:
+        type: string
+      is_resident:
+        type: number
+      is_owner:
+        type: number
+      is_rented:
+        type: number
+      address2:
+        type: string
+      unit_id:
+        type: number
+      unit_mapping_id:
+        type: number
+      owner_reltnship:
+        type: number
+  DVSuccessResponse:
+    description: HTTP 200 success response. This is used for all success responses.
+    properties:
+      message:
+        type: string
+  DVFailureResponse:
+    description: Generic failure response.

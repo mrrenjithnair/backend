@@ -1,0 +1,17 @@
+# project configuration
+general:
+  environment: local # local, dev, staging, test, prod. This needs to be all lower case.
+
+security:
+  secret: 'D!g!VaLLeT4'
+  expires: 604800 # 7 days
+  rateLimit: 100
+
+microServiceLink:
+  dummy: http://dummy.restapiexample.com/api/v1/employees
+
+OTP:
+  password:
+    includeNumbers: true
+    includeUpperCase: true
+    length: 20
