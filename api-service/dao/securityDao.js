@@ -32,9 +32,12 @@ const securityDao = new function() {
             try {
                 let passwordFromDB = r[0].password //modelUtils.decrypt(r[0].password);
                 console.log("passwordFromDB",passwordFromDB)
+                console.log("passwordFromDB",config.security.invalidUserNamePasswd)
                 if (password == passwordFromDB) {
                     return r;
-                } 
+                } else{
+                throw exceptionUtil.createSPException(config.security.invalidUserNamePasswd);
+                }
             } catch (error) {
               if(error instanceof SPException)
                 throw error;

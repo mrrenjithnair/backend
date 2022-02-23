@@ -13,9 +13,8 @@ module.exports = {
 
 function authenticate(req, res) {
     let user = req.swagger.params.authRequest.value;
-    let webapp = user.webapp ? user.webapp : false
     let authenticateUser = () => {
-        return securityDao.authenticate(user.username, user.password, req.headers.secret, req.headers.deviceid, webapp )
+        return securityDao.authenticate(user.username, user.password)
         .then((userModel) => {
             if (userModel && userModel.length>0) {
                 var user = {
