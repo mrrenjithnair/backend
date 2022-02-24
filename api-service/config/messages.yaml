@@ -21,13 +21,13 @@ global: # define all global error messages and codes here
     httpErrorCode: 400
 user: # module name
   moduleId: 2000 # module ID. Make sure it is unique across all projects.
-  residentNotFound: # error message key
-    message: Resident details not found. # error message
-    errorCode: 20001 # module ID + error sequence number
+  usernameAlreadyExists: # error message key
+    message: Username is already in use. # error message
+    errorCode: 10001 # module ID + error sequence number
     httpErrorCode: 400
-  residentAlreadyExists:
-    message: Resident already exist with the registered mobile number.
-    errorCode: 20002
+  emailIdAlreadyExists: # error message key
+    message: Email Id is already in use. # error message
+    errorCode: 10002 # module ID + error sequence number
     httpErrorCode: 400
 category:
   categoriesNotFound:
@@ -70,3 +70,6 @@ security: # module name
     message: Invalid secret value. All headless user login request must be provided with secret value. # error message
     errorCode: 20004 # module ID + error sequence number
     httpErrorCode: 400
+
+
+    

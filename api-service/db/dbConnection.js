@@ -18,6 +18,7 @@ const dbConnectionObj = new function() {
     this.db = new sequelize(this.getEnvVariable("dbname"), this.getEnvVariable("dbusername"), this.getEnvVariable("dbpassword"), {
         host: this.getEnvVariable("dbhost"),
         dialect: config.db.dialect,
+        logging: (msg) =>console.log(msg),
         engine: config.db.mysqlEngine,
         dialectOptions: {
             charset: 'utf8mb4',

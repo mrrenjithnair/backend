@@ -35,6 +35,10 @@ user:
   emailId:
     validation: Invoice email ID is not valid.
     emptyValidation: Email ID cannot be empty.
+  birthday:
+    validation: Patient birthday field must be greater than zero.
+  username:
+    lengthValidation: User name name can be up-to 25 characters length.
   mobile:
     lengthValidation: Mobile number must be upto 10 characters.
   preferredName:

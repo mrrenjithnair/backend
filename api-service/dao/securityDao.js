@@ -27,12 +27,11 @@ const securityDao = new function() {
             replacements: queryReplacement,
             type: db.QueryTypes.SELECT
         }).then((r) => {
+
             if (r.length != 1)
                 throw exceptionUtil.createSPException(config.security.invalidUserNamePasswd);
             try {
-                let passwordFromDB = r[0].password //modelUtils.decrypt(r[0].password);
-                console.log("passwordFromDB",passwordFromDB)
-                console.log("passwordFromDB",config.security.invalidUserNamePasswd)
+                let passwordFromDB = modelUtils.decryptBlob(r[0].password);
                 if (password == passwordFromDB) {
                     return r;
                 } else{

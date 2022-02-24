@@ -8,14 +8,13 @@ const userMessages = require('./../modelConfig.js').getMessageConfig().user;
 const systemConfig = require('./../modelConfig.js').getSystemConfig();
 
 const passwordVault = encryptedField(sequelize, systemConfig.db.blobEncryptionKey);
-const pinVault = encryptedField(sequelize, systemConfig.db.blobEncryptionKey);
+
 
 const user = db.define('user', {
-
     id: {
-        type: sequelize.UUID,
-        defaultValue: sequelize.UUIDV4,
-        primaryKey: true
+        type: sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     firstName: {
         type: sequelize.STRING,
@@ -37,7 +36,7 @@ const user = db.define('user', {
             }
         }
     },
-    email: {
+    emailId: {
         type: sequelize.STRING,
         allowNull: false,
         validate: {
@@ -48,16 +47,45 @@ const user = db.define('user', {
                 msg: userMessages.emailId.validation
             }
         }
-    }
+    },
+    username: {
+        type: sequelize.STRING,
+        allowNull: false,
+        validate:{
+            len: {
+                args: [1, 25],
+                msg: userMessages.username.lengthValidation
+            }
+        }
+    },
+    dob:{
+        type: sequelize.BIGINT,
+        allowNull: true,
+        defaultValue: 0,
+        validate: {
+            birthdayValidation: function(value) {
+                if (value < 0) {
+                    throw new Error(userMessages.birthday.validation)
+                }
+            }
+        }
+    },
+    password: passwordVault.vault('password', {
+        type: sequelize.STRING,
+        allowNull: false,
+        validate: {
+            len: {
+                args: [8, 100],
+                msg: userMessages.password.lengthValidation
+            }
+        }
+    }),
 }, {
     timestamps: true,
-    paranoid: false,
-    underscored: true,
-    createdAt: 'entry_dt',
-    updatedAt: 'lastupdated_dt',
+    paranoid: true,
+    underscored: false,
     freezeTableName: true,
-    tableName: 'USER_DTS',
-    version: false
+    tableName: 'USER'
 });
 
 module.exports = {

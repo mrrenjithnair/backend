@@ -64,6 +64,27 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/SPFailureResponse"
+  
+  /player:
+    x-swagger-router-controller: userController
+    post:
+      description: insert or update player
+      operationId: insertOrUpdatePlayer
+      parameters:
+        - name: player
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/player"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
 
 
   /swagger:
@@ -75,6 +96,25 @@ definitions:
     - username
     - password
     properties:
+      username:
+        type: string
+      password:
+        type: string
+  player:
+    required:
+    - firstName
+    - lastName
+    - dob
+    - emailId
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      emailId:
+        type: string
+      dob:
+        type: integer
       username:
         type: string
       password:
