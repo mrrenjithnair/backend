@@ -13,7 +13,7 @@ resident:
   preferredName:
     lengthValidation: Preferred name can be up-to 25 characters length.
   emailId:
-    validation: Invoice email ID is not valid.
+    validation: Email ID is not valid.
     emptyValidation: Email ID cannot be empty.
   gender:
     enumValidation: "Gender must be one of following values: M, F or Choose not to answer."
@@ -33,7 +33,7 @@ user:
   password:
     lengthValidation: Password must be between 8 to 100 characters length.
   emailId:
-    validation: Invoice email ID is not valid.
+    validation: Email ID is not valid.
     emptyValidation: Email ID cannot be empty.
   birthday:
     validation: Patient birthday field must be greater than zero.
