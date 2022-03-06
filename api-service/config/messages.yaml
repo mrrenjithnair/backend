@@ -38,10 +38,10 @@ category:
     message: Subcategory details not found.
     errorCode: 30002
     httpErrorCode: 400
-residentType:
-  residentTypeNotFound:
-    message: Resident type details not found.
-    errorCode: 40001
+club:
+  clubAlreadyExists: # error message key
+    message: Club name and location is already in use. # error message
+    errorCode: 10002 # module ID + error sequence number
     httpErrorCode: 400
 unit:
   unitNotFound:
@@ -71,5 +71,11 @@ security: # module name
     errorCode: 20004 # module ID + error sequence number
     httpErrorCode: 400
 
-
-    
+securityToken: # module name
+  moduleId: 6001 # module ID. Make sure it is unique across all projects.
+  tokenAuthenticationFailed: # error message key
+    message: Failed to authenticate the token. Access denied. Please login again!! # error message
+    ## errorCode: No need since HTTP 403 will be enough.
+  noTokenProvided: # error message key
+    message: No token provided. Access denied! # error message
+    ## errorCode: No need since HTTP 403 will be enough.

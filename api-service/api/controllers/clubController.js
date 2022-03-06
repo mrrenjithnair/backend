@@ -1,0 +1,38 @@
+const controllerUtils = require('../../controllerUtils.js');
+const db = require('../../db/dbConnection.js'); //required for applying transaction
+const clubDao = require('../../dao/clubDao.js');
+const modelUtils = require('../../modelUtils.js');
+
+module.exports = {
+    insertOrUpdateClub: insertOrUpdateClub,
+    getClubList: getClubList,
+    clubAdminInsertOrUpdate: clubAdminInsertOrUpdate,
+};
+
+function insertOrUpdateClub(req, res) {
+    let data = req.swagger.params.club.value;
+    let insertOrUpdateClubFromDao = () => {
+        return clubDao.insertOrUpdateClub(data)
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, insertOrUpdateClubFromDao);
+
+}
+function getClubList(req, res) {
+
+    let getClubListFromDao = () => {
+        return clubDao.getClubList()
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getClubListFromDao);
+
+}
+function clubAdminInsertOrUpdate(req, res) {
+    let data = req.swagger.params.clubAdmin.value;
+    let clubAdminInsertOrUpdateFromDao = () => {
+        return clubDao.clubAdminInsertOrUpdate(data)
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, clubAdminInsertOrUpdateFromDao);
+
+}
+
+
+

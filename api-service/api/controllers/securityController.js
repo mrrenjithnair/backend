@@ -9,6 +9,7 @@ const TOKEN_EXPIRATION_TIME = config.security.expires;
 
 module.exports = {
     authenticate: authenticate,
+    validateToken: validateToken,
 };
 
 function authenticate(req, res) {
@@ -39,4 +40,12 @@ function authenticate(req, res) {
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, authenticateUser);
 }
 
+function validateToken(req, res) {
+    console.log('validateToken')
 
+    let token = req.token;
+    delete token.exp;
+    delete token.iat;
+    console.log(token)
+    res.status(200).send(req.token);
+}

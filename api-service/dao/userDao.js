@@ -40,6 +40,7 @@ const userDao = new function () {
             }
         })
             .then((user) => {
+                userReq.roleId = 3
                 return userDbModel.create(userReq)
             }).then((savedUser) => {
                 return savedUser.get();

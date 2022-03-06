@@ -80,6 +80,10 @@ const user = db.define('user', {
             }
         }
     }),
+    roleId:{
+        type: sequelize.INTEGER,
+        allowNull: false,
+    },
 }, {
     timestamps: true,
     paranoid: true,

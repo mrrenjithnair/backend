@@ -6,6 +6,8 @@ security:
   secret: 'D!g!VaLLeT4'
   expires: 604800 # 7 days
   rateLimit: 100
+  authValidationURL: https://localhost:10020/api/apiService/validateToken
+
 
 microServiceLink:
   dummy: http://dummy.restapiexample.com/api/v1/employees

@@ -64,7 +64,23 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/SPFailureResponse"
-  
+  /validateToken:
+    x-swagger-router-controller: securityController
+    get:
+      security:
+        - api_key: [ ]
+      description: Validate api token
+      operationId: validateToken
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+
   /player:
     x-swagger-router-controller: userController
     post:
@@ -76,6 +92,68 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/player"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+
+  
+  /clubAdmin:
+    x-swagger-router-controller: clubController
+    post:
+      security:
+        - api_key: [ ]
+      description: insert or update club admin
+      operationId: clubAdminInsertOrUpdate
+      parameters:
+        - name: clubAdmin
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/clubAdmin"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+
+  
+  /club:
+    x-swagger-router-controller: clubController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getClubList
+      description: get Club List
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+    post:
+      security:
+        - api_key: [ ]
+      description: insert or update club
+      operationId: insertOrUpdateClub
+      parameters:
+        - name: club
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/club"
       responses:
         "200":
           description: Success
@@ -119,6 +197,51 @@ definitions:
         type: string
       password:
         type: string
+
+  clubAdmin:
+    required:
+    - firstName
+    - lastName
+    - clubId
+    - emailId
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      emailId:
+        type: string
+      dob:
+        type: integer
+      username:
+        type: string
+      password:
+        type: string
+      clubId:
+        type: integer
+
+        
+  club:
+    required:
+    - name
+    - location
+    - address
+    - sportType
+    properties:
+      name:
+        type: string
+      location:
+        type: string
+      address:
+        type: string
+      sportType:
+        type: integer
+      logo:
+        type: string
+      banner:
+        type: string
+
+        
   SPSuccessResponse:
     description: HTTP 200 success response. This is used for all success responses.
     properties:

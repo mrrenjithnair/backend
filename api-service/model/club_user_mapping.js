@@ -3,41 +3,35 @@
 const sequelize = require('sequelize');
 const db = require('../db/dbConnection.js').get();
 const encryptedField = require('sequelize-encrypted');
-const user = require('./user.js').user;
+
 const userMessages = require('../modelConfig.js').getMessageConfig().user;
 const systemConfig = require('../modelConfig.js').getSystemConfig();
 
-const passwordVault = encryptedField(sequelize, systemConfig.db.blobEncryptionKey);
 
 
-const player = db.define('player', {
-    userId: {
+const club_user_mapping = db.define('club_user_mapping', {
+    clubId:{
         type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: false
+        allowNull: false,
     },
-    sportsType: {
+    userId:{
+        type: sequelize.INTEGER,
+        allowNull: false,
+    },
+    approved:{
         type: sequelize.INTEGER,
         allowNull: true,
-    },
-    rating: {
-        type: sequelize.INTEGER,
-        allowNull: true,
-    },
-    category: {
-        type: sequelize.STRING,
-        allowNull: true,
-    },
-    
+    }
 }, {
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
+    paranoid: false,
     underscored: false,
     freezeTableName: true,
-    tableName: 'PLAYER'
+    tableName: 'CLUB_USER_MAPPING',
+    version: false
 });
-player.belongsTo(user);
-player.removeAttribute('id')
+club_user_mapping.removeAttribute('id')
+
 module.exports = {
-    player: player
+    club_user_mapping: club_user_mapping
 };
