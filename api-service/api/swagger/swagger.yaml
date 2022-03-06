@@ -82,7 +82,26 @@ paths:
             $ref: "#/definitions/SPFailureResponse"
 
   /player:
-    x-swagger-router-controller: userController
+    x-swagger-router-controller: playerController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getPlayerList
+      description: get player List
+      parameters:
+         - name: clubId
+           type: string
+           in: query
+           required: false
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
     post:
       description: insert or update player
       operationId: insertOrUpdatePlayer
