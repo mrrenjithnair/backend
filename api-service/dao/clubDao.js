@@ -13,9 +13,10 @@ const SELECT_SPORTS = " SELECT * FROM SPORTS  "
 const EXISITING_CLUB = " SELECT * FROM CLUB C WHERE C.NAME = :name AND C.LOCATION = :location  "
 const EXISITING_USER = " SELECT * FROM USER U WHERE U.EMAILID = :emailId AND U.USERNAME = :username "
 
-const GET_CLUB_LIST = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, U.ID ownerId FROM CLUB C  " +
+const GET_CLUB_LIST = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, U.ID ownerId, CPM.playerId, CPM.approved FROM CLUB C  " +
     " LEFT OUTER JOIN CLUB_USER_MAPPING CUM ON CUM.CLUBID = C.ID " +
-    " LEFT OUTER JOIN USER U ON U.ID = CUM.USERID " 
+    " LEFT OUTER JOIN USER U ON U.ID = CUM.USERID " +
+    " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID "
 const clubDao = new function () {
     this.insertOrUpdateClub = function (data) {
         if (data.id) {
@@ -42,7 +43,11 @@ const clubDao = new function () {
             })
     }
     this.getClubList = function (clubReq) {
-        return db.query(GET_CLUB_LIST, {
+        let query = GET_CLUB_LIST
+        if(clubReq.userId){
+            query += " AND  CPM.PLAYERID = :userId "
+        }
+        return db.query(query, {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
         }).then((club) => {
