@@ -20,9 +20,14 @@ function insertOrUpdateClub(req, res) {
 function getClubList(req, res) {
     
     let userId = req.swagger.params.userId.value;
-    let obj={userId}
+    let clubId = req.swagger.params.clubId.value;
+    let obj={userId,clubId}
     let getClubListFromDao = () => {
-        return clubDao.getClubList(obj)
+        if (obj.clubId) {
+            return clubDao.getClubDetails(obj)
+        } else {
+            return clubDao.getClubList(obj)
+        }
     }
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getClubListFromDao);
 

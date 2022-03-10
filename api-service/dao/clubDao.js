@@ -16,7 +16,8 @@ const EXISITING_USER = " SELECT * FROM USER U WHERE U.EMAILID = :emailId AND U.U
 const GET_CLUB_LIST = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, U.ID ownerId, CPM.playerId, CPM.approved FROM CLUB C  " +
     " LEFT OUTER JOIN CLUB_USER_MAPPING CUM ON CUM.CLUBID = C.ID " +
     " LEFT OUTER JOIN USER U ON U.ID = CUM.USERID " +
-    " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID "
+    " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID " +
+    " WHERE C.DELETEDAT IS NULL "
 const clubDao = new function () {
     this.insertOrUpdateClub = function (data) {
         if (data.id) {
@@ -54,6 +55,22 @@ const clubDao = new function () {
             return club
         })
     }
+    this.getClubDetails = function (clubReq) {
+        let query = GET_CLUB_LIST
+        if(clubReq.userId){
+            query += " AND  CPM.PLAYERID = :userId "
+        }
+        if(clubReq.clubId){
+            query += " AND C.ID = :clubId "
+        }
+        return db.query(query, {
+            replacements: clubReq,
+            type: db.QueryTypes.SELECT
+        }).then((club) => {
+            return club
+        })
+    }
+    
     this.clubAdminInsertOrUpdate = function (data) {
         if (data.id) {
             return {}
