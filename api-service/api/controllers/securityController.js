@@ -24,6 +24,8 @@ function authenticate(req, res) {
                     firstName: userModel[0].firstName,
                     lastName: userModel[0].lastName,
                     emailId: userModel[0].emailId,
+                    profilePicture: userModel[0].profilePicture,
+                    roleId: userModel[0].roleId,
                 }
             }
             let token = jwt.sign(user, config.security.secret, {
