@@ -7,6 +7,7 @@ module.exports = {
     insertOrUpdateClub: insertOrUpdateClub,
     getClubList: getClubList,
     clubAdminInsertOrUpdate: clubAdminInsertOrUpdate,
+    joinClubOrApprove: joinClubOrApprove
 };
 
 function insertOrUpdateClub(req, res) {
@@ -21,7 +22,9 @@ function getClubList(req, res) {
     
     let userId = req.swagger.params.userId.value;
     let clubId = req.swagger.params.clubId.value;
-    let obj={userId,clubId}
+    let approved = req.swagger.params.approved.value;
+    
+    let obj={userId,clubId,approved}
     let getClubListFromDao = () => {
         if (obj.clubId) {
             return clubDao.getClubDetails(obj)
@@ -38,6 +41,15 @@ function clubAdminInsertOrUpdate(req, res) {
         return clubDao.clubAdminInsertOrUpdate(data)
     }
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, clubAdminInsertOrUpdateFromDao);
+
+}
+
+function joinClubOrApprove(req, res) {
+    let clubObj = req.swagger.params.clubObj.value;
+    let joinClubFromDao = () => {
+        return clubDao.joinClub(clubObj)
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, joinClubFromDao);
 
 }
 

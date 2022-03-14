@@ -6,6 +6,7 @@ const config = require('../config.js').getMessageConfig();
 const clubDbModel = require('../model/club.js').club;
 const userDbModel = require('../model/user.js').user;
 const clubUserMappingDbModel = require('../model/club_user_mapping.js').club_user_mapping;
+const clubPlayerMappingDbModel = require('../model/club_player_mapping.js').club_player_mapping;
 
 
 const SELECT_SPORTS = " SELECT * FROM SPORTS  "
@@ -48,6 +49,12 @@ const clubDao = new function () {
         if(clubReq.userId){
             query += " AND  CPM.PLAYERID = :userId "
         }
+        if (clubReq.approved) {
+            query += " AND  CPM.APPROVED = 1 "
+        } else {
+            query += " AND  CPM.APPROVED <> 1 "
+        }
+        query += "  group By c.id "
         return db.query(query, {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
@@ -115,6 +122,16 @@ const clubDao = new function () {
             }).then((data) => {
                 return userDetail
             })
+    }
+    this.joinClub = function (data) {
+        let obj ={
+            playerId :data.userId,
+            clubId :data.clubId,
+            approved: 0,
+        }
+        return clubPlayerMappingDbModel.create(obj).then((data) => {
+            return data
+        })
     }
 }
 module.exports = clubDao;

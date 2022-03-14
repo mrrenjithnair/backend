@@ -24,13 +24,14 @@ const club_player_mapping = db.define('club_player_mapping', {
         allowNull: true,
     }
 }, {
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
+    paranoid: false,
     underscored: false,
     freezeTableName: true,
-    tableName: 'CLUB_PLAYER_MAPPING'
+    tableName: 'CLUB_PLAYER_MAPPING',
+    version: false
 });
-
+club_player_mapping.removeAttribute('id')
 module.exports = {
     club_player_mapping: club_player_mapping
 };
