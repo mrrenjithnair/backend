@@ -25,8 +25,10 @@ function getClubList(req, res) {
     let userId = req.swagger.params.userId.value;
     let clubId = req.swagger.params.clubId.value;
     let approved = req.swagger.params.approved.value;
+    let superAdmin = req.swagger.params.superAdmin.value  == 'true' ? true : false;
     
-    let obj={userId,clubId,approved}
+    
+    let obj={userId,clubId,approved, superAdmin}
     let getClubListFromDao = () => {
         if (obj.clubId) {
             return clubDao.getClubDetails(obj)
@@ -42,8 +44,10 @@ function getClubAdminList(req, res) {
     let userId = req.swagger.params.userId.value;
     let clubId = req.swagger.params.clubId.value;
     let assigned = req.swagger.params.assigned.value;
+    let superAdmin = req.swagger.params.superAdmin.value;
     assigned = assigned ? req.swagger.params.assigned.value == 'true' ? true : false : false
-    let obj = { userId, clubId, assigned }
+    superAdmin = superAdmin ? req.swagger.params.superAdmin.value == 'true' ? true : false : false
+    let obj = { userId, clubId, assigned, superAdmin }
     let getClubAdminListFromDao = () => {
         if (obj.userId) {
             return clubDao.getClubDetails(obj)
