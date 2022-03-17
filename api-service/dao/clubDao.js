@@ -33,7 +33,6 @@ const clubDao = new function () {
         }
     }
     this.insertClub = function (clubReq) {
-        console.log("clubReq",clubReq)
         let clubDetail
         return db.query(EXISITING_CLUB, {
             replacements: clubReq,
@@ -54,10 +53,12 @@ const clubDao = new function () {
         if(clubReq.userId){
             query += " AND  CPM.PLAYERID = :userId "
         }
-        if (clubReq.approved) {
-            query += " AND  CPM.APPROVED = 1 "
-        } else {
-            query += " AND  CPM.APPROVED <> 1 "
+        if(!clubReq.superAdmin){
+            if (clubReq.approved) {
+                query += " AND  CPM.APPROVED = 1 "
+            } else {
+                query += " AND  CPM.APPROVED <> 1 "
+            }
         }
         query += "  group By c.id "
         return db.query(query, {
@@ -72,17 +73,48 @@ const clubDao = new function () {
         if (clubReq.userId) {
             query += " AND U.ID = :userId "
         }
-        if (clubReq.assigned) {
-            query += " AND CUM.CLUBID IS NOT NULL "
+        if (!clubReq.superAdmin) {
+            if (clubReq.assigned) {
+                query += " AND CUM.CLUBID IS NOT NULL "
+            } else {
+                query += " AND CUM.CLUBID IS NULL "
+            }
+
         } else {
-            query += " AND CUM.CLUBID IS NULL "
+            query += "  GROUP BY U.ID "
         }
-        query += "  group By CUM.CLUBID "
+ 
         return db.query(query, {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
-        }).then((club) => {
-            return club
+        }).then((adminList) => {
+            let query2 =GET_CLUB_LIST
+            if (adminList && adminList.length > 0 && clubReq.superAdmin) {
+                for (var i = 0; i < adminList.length; i++) {
+                    clubReq.ownerId = adminList[i].id
+                    query2 += " AND U.ID = :ownerId "
+                    query2 += " GROUP BY C.ID "
+                    return db.query(query2, {
+                        replacements: clubReq,
+                        type: db.QueryTypes.SELECT
+                    }).then((clubList) => {
+                        adminList[i].clubList = []
+                        if (clubList && clubList.length > 0) {
+                            clubList.map((item) => {
+                                adminList[i].clubList.push({
+                                    name: item.name,
+                                    clubId: item.id,
+                                    logo: item.logo
+                                })
+                            })
+                            return adminList
+                        }
+                    })
+                }
+            }else{
+               return adminList
+            }
+            
         })
     }
     this.getClubDetails = function (clubReq) {
@@ -140,7 +172,6 @@ const clubDao = new function () {
                     clubId :userReq.clubId,
                     approved: 1,
                 }
-                console.log('obj',obj)
                 return clubUserMappingDbModel.create(obj)
             }).then((data) => {
                 return userDetail
