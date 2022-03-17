@@ -53,12 +53,15 @@ const clubDao = new function () {
         if(clubReq.userId){
             query += " AND  CPM.PLAYERID = :userId "
         }
-        if(!clubReq.superAdmin){
+        if(!clubReq.superAdmin && !clubReq.assigned){
             if (clubReq.approved) {
                 query += " AND  CPM.APPROVED = 1 "
             } else {
                 query += " AND  CPM.APPROVED <> 1 "
             }
+        }
+        if (clubReq.assigned) {
+            query += " AND CUM.USERID IS NULL "
         }
         query += "  group By c.id "
         return db.query(query, {
@@ -88,9 +91,10 @@ const clubDao = new function () {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
         }).then((adminList) => {
-            let query2 =GET_CLUB_LIST
+            let query2 
             if (adminList && adminList.length > 0 && clubReq.superAdmin) {
                 for (var i = 0; i < adminList.length; i++) {
+                    query2 = GET_CLUB_LIST
                     clubReq.ownerId = adminList[i].id
                     query2 += " AND U.ID = :ownerId "
                     query2 += " GROUP BY C.ID "
@@ -99,6 +103,7 @@ const clubDao = new function () {
                         type: db.QueryTypes.SELECT
                     }).then((clubList) => {
                         adminList[i].clubList = []
+                        delete adminList[i].password
                         if (clubList && clubList.length > 0) {
                             clubList.map((item) => {
                                 adminList[i].clubList.push({
@@ -107,8 +112,8 @@ const clubDao = new function () {
                                     logo: item.logo
                                 })
                             })
-                            return adminList
                         }
+                        return adminList
                     })
                 }
             }else{
