@@ -142,6 +142,11 @@ paths:
           type: string
           in: query
           required: false
+        - name: superAdmin
+          type: string
+          in: query
+          required: false
+          
       responses:
         "200":
           description: Success
@@ -213,6 +218,10 @@ paths:
            in: query
            required: false
          - name: approved
+           type: string
+           in: query
+           required: false
+         - name: superAdmin
            type: string
            in: query
            required: false
