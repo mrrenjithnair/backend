@@ -27,6 +27,7 @@ function authenticate(req, res) {
                     profilePicture: userModel[0].profilePicture,
                     roleId: userModel[0].roleId,
                     privileges: userModel[0].privileges, 
+                    club: userModel[0].club, 
                 }
             }
             let token = jwt.sign(user, config.security.secret, {

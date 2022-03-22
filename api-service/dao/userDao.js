@@ -14,7 +14,7 @@ const EXISITING_USER = " SELECT * FROM USER U WHERE U.EMAILID = :emailId AND U.U
 const userDao = new function () {
     this.insertOrUpdatePlayer = function (data) {
         if (data.id) {
-            return {}
+            return this.updateUser(data)
         } else {
             return this.insertUser(data)
         }
@@ -54,6 +54,15 @@ const userDao = new function () {
                 let merged = { ...userDetail, ...player };
                 return merged
             })
+    }
+    this.updateUser = function (userReq) {
+        return userDbModel.update(userReq, {
+            where: {
+                'id': userReq.id
+            }
+        }).then((savedUser) => {
+            return savedUser
+        })
     }
 }
 module.exports = userDao;

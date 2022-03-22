@@ -43,9 +43,9 @@ club:
     message: Club name and location is already in use. # error message
     errorCode: 10002 # module ID + error sequence number
     httpErrorCode: 400
-unit:
-  unitNotFound:
-    message: Unit details not found.
+tournament:
+  tournamentAlreadyExists:
+    message: Tournament not already exisiting.
     errorCode: 50001
     httpErrorCode: 400
 security: # module name

@@ -7,6 +7,7 @@ const clubDbModel = require('../model/club.js').club;
 const userDbModel = require('../model/user.js').user;
 const clubUserMappingDbModel = require('../model/club_user_mapping.js').club_user_mapping;
 const clubPlayerMappingDbModel = require('../model/club_player_mapping.js').club_player_mapping;
+const promise = require('bluebird');
 
 
 const SELECT_SPORTS = " SELECT * FROM SPORTS  "
@@ -27,7 +28,7 @@ const GET_CLUB_ADMIN_LIST = " SELECT * FROM USER U " +
 const clubDao = new function () {
     this.insertOrUpdateClub = function (data) {
         if (data.id) {
-            return {}
+            return this.updateClub(data)
         } else {
             return this.insertClub(data)
         }
@@ -90,34 +91,39 @@ const clubDao = new function () {
         return db.query(query, {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
-        }).then((adminList) => {
+        }).then((adminLists) => {
             let query2 
-            if (adminList && adminList.length > 0 && clubReq.superAdmin) {
-                for (var i = 0; i < adminList.length; i++) {
+            let adminArray = []
+            if (adminLists && adminLists.length > 0 && clubReq.superAdmin) {
+           return promise.mapSeries(adminLists, async (admin, i) => {
                     query2 = GET_CLUB_LIST
-                    clubReq.ownerId = adminList[i].id
+                    clubReq.ownerId = admin.id
                     query2 += " AND U.ID = :ownerId "
                     query2 += " GROUP BY C.ID "
-                    return db.query(query2, {
+                    console.log("=====i=====", i)
+                    db.query(query2, {
                         replacements: clubReq,
                         type: db.QueryTypes.SELECT
                     }).then((clubList) => {
-                        adminList[i].clubList = []
-                        delete adminList[i].password
+                        admin.clubList = []
+                        delete admin.password
                         if (clubList && clubList.length > 0) {
                             clubList.map((item) => {
-                                adminList[i].clubList.push({
+                                admin.clubList.push({
                                     name: item.name,
                                     clubId: item.id,
                                     logo: item.logo
                                 })
                             })
+                            adminArray.push(admin)
                         }
-                        return adminList
                     })
-                }
+                }).then((data)=>{
+                    console.log(adminArray)
+                    return adminArray
+                })
             }else{
-               return adminList
+               return adminLists
             }
             
         })
@@ -190,6 +196,15 @@ const clubDao = new function () {
         }
         return clubPlayerMappingDbModel.create(obj).then((data) => {
             return data
+        })
+    }
+    this.updateClub = function (userReq) {
+        return clubDbModel.update(userReq, {
+            where: {
+                'id': userReq.id
+            }
+        }).then((savedUser) => {
+            return savedUser.get();
         })
     }
 }

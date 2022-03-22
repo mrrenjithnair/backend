@@ -26,14 +26,19 @@ const team = db.define('team', {
             }
         }
     },
-    Logo: {
+    logo: {
         type: sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     ownerId:{
         type: sequelize.INTEGER,
         allowNull: true,
+    },
+    clubId:{
+        type: sequelize.INTEGER,
+        allowNull: true,
     }
+    
 }, {
     timestamps: true,
     paranoid: true,

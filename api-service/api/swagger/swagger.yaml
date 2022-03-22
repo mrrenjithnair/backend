@@ -121,6 +121,55 @@ paths:
           schema:
             $ref: "#/definitions/SPFailureResponse"
 
+  /tournament:
+    x-swagger-router-controller: tournamentController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getTournament
+      description: get Tournament 
+      parameters:
+         - name: clubId
+           type: string
+           in: query
+           required: false
+         - name: userId
+           type: string
+           in: query
+           required: false
+         - name: tournamentId
+           type: string
+           in: query
+           required: false
+           
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+    post:
+      description: Insert Or Update Tournament
+      operationId: insertOrUpdateTournament
+      parameters:
+        - name: tournament
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/tournament"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+
   
   /clubAdmin:
     x-swagger-router-controller: clubController
@@ -343,8 +392,28 @@ definitions:
         type: string
       banner:
         type: string
-
-        
+  tournament:
+    required:
+    - name
+    - clubId
+    - memberTotal
+    - teamTotal
+    properties:
+      name:
+        type: string
+      logo:
+        type: string
+      clubId:
+        type: integer
+      teamTotal:
+        type: integer
+      memberTotal:
+        type: integer
+      startDate:
+        type: integer
+      endDate:
+        type: integer
+       
   SPSuccessResponse:
     description: HTTP 200 success response. This is used for all success responses.
     properties:
