@@ -65,6 +65,8 @@ const securityDao = new function () {
                         user[0].club = club
                         return user
                     })
+                }else{
+                    return user
                 }
             }
         }).then((user) => {

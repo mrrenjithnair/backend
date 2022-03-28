@@ -9,6 +9,11 @@ const teamDbModel = require('../model/team.js').team;
 
 const GET_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T WHERE T.DELETEDAT IS NULL "
 
+const GET_MY_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T  " +
+    " INNER JOIN TEAM TM ON TM.TOURNAMENTID = T.ID " +
+    " INNER JOIN TEAM_PLAYER_MAPPING TPM ON TPM.TEAM_ID  = TM.ID " +
+    " WHERE T.DELETEDAT IS NULL  " 
+
 const tournamentDao = new function () {
     this.insertOrUpdateTournament = function (data) {
         if (data.id) {
@@ -54,9 +59,17 @@ const tournamentDao = new function () {
         })
     }
     this.getTournamentList = function (tournamentReq) {
-        let query = GET_TOURNAMENT_LIST
+        let query
+        if (tournamentReq.userId) {
+            query = GET_MY_TOURNAMENT_LIST
+        } else {
+            query = GET_TOURNAMENT_LIST
+        }
         if (tournamentReq.tournamentId) {
             query += " AND  T.ID = :tournamentId "
+        }
+        if (tournamentReq.clubId) {
+            query += " AND  T.CLUBID = :clubId "
         }
         return db.query(query, {
             replacements: tournamentReq,
