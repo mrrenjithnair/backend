@@ -7,7 +7,12 @@ const tournamentDbModel = require('../model/tournament.js').tournament;
 const teamDbModel = require('../model/team.js').team;
 
 
-const GET_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T WHERE T.DELETEDAT IS NULL "
+const GET_TOURNAMENT_LIST =  " SELECT t.*,  " +
+    " CASE WHEN R.TYPE='team' THEN 1 ELSE 0 END requestedTeam, " +
+    " CASE WHEN R.TYPE='tournament' THEN 1 ELSE 0 END requestedTournament " +
+    " FROM TOURNAMENT T " +
+    " left outer join request r on r.tournamentId= t.id " +
+    " WHERE T.DELETEDAT IS NULL" 
 
 const GET_MY_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T  " +
     " INNER JOIN TEAM TM ON TM.TOURNAMENTID = T.ID " +
@@ -60,10 +65,11 @@ const tournamentDao = new function () {
     }
     this.getTournamentList = function (tournamentReq) {
         let query
-        if (tournamentReq.userId) {
+        if (tournamentReq.list == false) {
             query = GET_MY_TOURNAMENT_LIST
         } else {
             query = GET_TOURNAMENT_LIST
+            query += " AND r.userId = :userId "
         }
         if (tournamentReq.tournamentId) {
             query += " AND  T.ID = :tournamentId "
