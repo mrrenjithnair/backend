@@ -69,7 +69,9 @@ const tournamentDao = new function () {
             query = GET_MY_TOURNAMENT_LIST
         } else {
             query = GET_TOURNAMENT_LIST
-            query += " AND r.userId = :userId "
+            if(tournamentReq.cluAdmin == false && tournamentReq.list == false ){
+                query += " AND r.userId = :userId "
+            }
         }
         if (tournamentReq.tournamentId) {
             query += " AND  T.ID = :tournamentId "
@@ -79,7 +81,8 @@ const tournamentDao = new function () {
         }
         return db.query(query, {
             replacements: tournamentReq,
-            type: db.QueryTypes.SELECT
+            type: db.QueryTypes.SELECT,
+            logging: console.log,
         }).then((tournament) => {
             return tournament
         })

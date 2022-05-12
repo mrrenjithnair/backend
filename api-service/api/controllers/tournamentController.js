@@ -24,8 +24,10 @@ function getTournament(req, res) {
     let clubId = req.swagger.params.clubId.value;
     let tournamentId = req.swagger.params.tournamentId.value;
     let list = req.swagger.params.list.value  == 'true' ? true : false;;
+    let cluAdmin = req.swagger.params.cluAdmin.value  == 'true' ? true : false;;
     
-    let obj = { userId, clubId, tournamentId, list }
+    
+    let obj = { userId, clubId, tournamentId, list, cluAdmin }
     let getTournamentListFromDao = () => {
         if (obj.tournamentId) {
             return tournamentDao.getTournamentDetails(obj)
