@@ -69,7 +69,7 @@ const tournamentDao = new function () {
             query = GET_MY_TOURNAMENT_LIST
         } else {
             query = GET_TOURNAMENT_LIST
-            query += " AND r.userId = :userId "
+            // query += " AND r.userId = :userId "
         }
         if (tournamentReq.tournamentId) {
             query += " AND  T.ID = :tournamentId "
