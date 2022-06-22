@@ -84,6 +84,18 @@ const user = db.define('user', {
         type: sequelize.INTEGER,
         allowNull: false,
     },
+    mobile:{
+        type: sequelize.INTEGER,
+        allowNull: true,
+    },
+    location:{
+        type: sequelize.INTEGER,
+        allowNull: true,
+    },
+    village:{
+        type: sequelize.INTEGER,
+        allowNull: true,
+    },
 }, {
     timestamps: true,
     paranoid: true,

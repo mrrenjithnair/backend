@@ -36,7 +36,7 @@ CREATE TABLE `player` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) DEFAULT NULL,
   `sport_type` int(11) DEFAULT NULL,
-  `rating` int(1) DEFAULT NULL,
+  `rating` varchar(30) DEFAULT NULL,
   `category` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

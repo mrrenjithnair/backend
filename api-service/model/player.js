@@ -16,12 +16,12 @@ const player = db.define('player', {
         primaryKey: true,
         autoIncrement: false
     },
-    sportsType: {
+    sportsTypeId: {
         type: sequelize.INTEGER,
         allowNull: true,
     },
-    rating: {
-        type: sequelize.INTEGER,
+    playerType: {
+        type: sequelize.STRING,
         allowNull: true,
     },
     category: {
