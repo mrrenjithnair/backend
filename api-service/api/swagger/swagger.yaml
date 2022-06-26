@@ -235,6 +235,38 @@ paths:
 
   /request:
     x-swagger-router-controller: requestController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getClubRequest
+      description: get Club Request List
+      parameters:
+        - name: userId
+          type: string
+          in: query
+          required: false
+        - name: clubId
+          type: string
+          in: query
+          required: false
+        - name: assigned
+          type: string
+          in: query
+          required: false
+        - name: superAdmin
+          type: string
+          in: query
+          required: false
+          
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
     post:
       security:
         - api_key: [ ]

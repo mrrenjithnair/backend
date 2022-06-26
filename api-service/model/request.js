@@ -28,6 +28,10 @@ const request = db.define('request', {
         type: sequelize.INTEGER,
         allowNull: true,
     },
+    approved:{
+        type: sequelize.INTEGER,
+        allowNull: true, 
+    },
     tournamentId:{
         type: sequelize.INTEGER,
         allowNull: true,
