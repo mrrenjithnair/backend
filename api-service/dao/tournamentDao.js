@@ -11,7 +11,9 @@ const GET_TOURNAMENT_LIST =  " SELECT t.*,  " +
     " CASE WHEN R.TYPE='team' THEN 1 ELSE 0 END requestedTeam, " +
     " CASE WHEN R.TYPE='tournament' THEN 1 ELSE 0 END requestedTournament " +
     " FROM TOURNAMENT T " +
-    " left outer join request r on r.tournamentId= t.id " +
+    " INNER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = T.CLUBID AND CPM.APPROVED = 1 " +
+    " INNER JOIN USER U ON U.ID = CPM.PLAYERID " +
+    " LEFT OUTER JOIN REQUEST R ON R.TOURNAMENTID= T.ID AND R.USERID = U.ID" +
     " WHERE T.DELETEDAT IS NULL" 
 
 const GET_MY_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T  " +
@@ -69,6 +71,10 @@ const tournamentDao = new function () {
             query = GET_MY_TOURNAMENT_LIST
         } else {
             query = GET_TOURNAMENT_LIST
+            if(tournamentReq.cluAdmin == false){
+                query += " AND CPM.playerId = :userId"
+
+            }
             if(tournamentReq.cluAdmin == false && tournamentReq.list == false ){
                 query += " AND r.userId = :userId "
             }
@@ -79,6 +85,8 @@ const tournamentDao = new function () {
         if (tournamentReq.clubId) {
             query += " AND  T.CLUBID = :clubId "
         }
+        
+        query += " GROUP BY T.ID "
         return db.query(query, {
             replacements: tournamentReq,
             type: db.QueryTypes.SELECT,

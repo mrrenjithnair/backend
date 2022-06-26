@@ -16,9 +16,9 @@ const EXISITING_CLUB = " SELECT * FROM CLUB C WHERE C.NAME = :name AND C.LOCATIO
 const EXISITING_USER = " SELECT * FROM USER U WHERE U.EMAILID = :emailId AND U.USERNAME = :username "
 
 const GET_CLUB_LIST = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, U.ID ownerId, CPM.playerId, CPM.approved FROM CLUB C  " +
-    " LEFT OUTER JOIN CLUB_USER_MAPPING CUM ON CUM.CLUBID = C.ID " +
-    " LEFT OUTER JOIN USER U ON U.ID = CUM.USERID " +
-    " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID " +
+    " INNER JOIN CLUB_USER_MAPPING CUM ON CUM.CLUBID = C.ID " +
+    " INNER JOIN USER U ON U.ID = CUM.USERID " +
+    " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID AND CPM.PLAYERID = :userId" +
     " WHERE C.DELETEDAT IS NULL "
 
 const GET_CLUB_ADMIN_LIST = " SELECT * FROM USER U " +
@@ -51,14 +51,11 @@ const clubDao = new function () {
     }
     this.getClubList = function (clubReq) {
         let query = GET_CLUB_LIST
-        if(clubReq.userId){
-            query += " AND  CPM.PLAYERID = :userId "
-        }
         if(!clubReq.superAdmin && !clubReq.assigned){
             if (clubReq.approved) {
-                query += " AND  CPM.APPROVED = 1 "
+                query += "AND  CPM.PLAYERID = :userId AND  CPM.APPROVED = 1 "
             } else {
-                query += " AND  CPM.APPROVED <> 1 "
+                query += " AND  CPM.APPROVED IS NULL  OR CPM.APPROVED = 0  "
             }
         }
         if (clubReq.assigned) {
