@@ -31,6 +31,7 @@ const club_player_mapping = db.define('club_player_mapping', {
     tableName: 'CLUB_PLAYER_MAPPING',
     version: false
 });
+
 club_player_mapping.removeAttribute('id')
 module.exports = {
     club_player_mapping: club_player_mapping

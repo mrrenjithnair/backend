@@ -52,7 +52,6 @@ const securityDao = new function () {
             if (user && user.length > 0) {
                 let query1 = CLUB_LIST
                 if (user && user[0] && user[0].roleId == 2) {
-                    console.log(user)
                     queryReplacement.userId = user[0].id
                     if (queryReplacement.userId) {
                         query1 += " AND U.ID =:userId "
@@ -61,7 +60,6 @@ const securityDao = new function () {
                         replacements: queryReplacement,
                         type: db.QueryTypes.SELECT
                     }).then((club) => {
-                        console.log(club)
                         user[0].club = club
                         return user
                     })

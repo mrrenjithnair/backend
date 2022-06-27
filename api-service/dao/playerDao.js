@@ -6,7 +6,8 @@ const config = require('../config.js').getMessageConfig();
 const userDbModel = require('../model/user.js').user;
 const playerDbModel = require('../model/player.js').player;
 
-const GET_PLAYER_LIST = " select u.firstName, u.lastName, u.dob, u.username, u.roleId, u.profilePicture, s.name sportName, s.type sportType, p.category from user u " +
+const GET_PLAYER_LIST = " select u.id, C.ID clubId, u.firstName, u.lastName, u.dob, u.username, u.roleId, u.profilePicture, s.name sportName, s.type sportType, p.category, u.location, u.village, p.playerType, spm.approved, " +
+    " u.roleId, u.emailId from user u " +
     " inner join player p on u.id = p.userId " +
     " inner join sports s on s.id = p.sportsTypeId " +
     " left outer join club_player_mapping spm on spm.playerId = u.id " +

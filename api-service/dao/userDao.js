@@ -1,5 +1,6 @@
 'use strict';
 
+const e = require('cors');
 const exceptionUtil = require('../exceptionUtils.js');
 const db = require('../db/dbConnection.js').get();
 const config = require('../config.js').getMessageConfig();
@@ -10,6 +11,8 @@ const playerDbModel = require('../model/player.js').player;
 const SELECT_SPORTS = " SELECT * FROM SPORTS  "
 
 const EXISITING_USER = " SELECT * FROM USER U WHERE U.EMAILID = :emailId AND U.USERNAME = :username "
+const APPROVE_STATUS = " UPDATE CLUB_PLAYER_MAPPING SET approved = :approved WHERE PLAYERID = :userId AND CLUBID = :clubId "
+
 
 const userDao = new function () {
     this.insertOrUpdatePlayer = function (data) {
@@ -62,6 +65,31 @@ const userDao = new function () {
             }
         }).then((savedUser) => {
             return savedUser
+        }).then((savedUser) => {
+            if (userReq.roleId == 3) {
+                let userDetail = savedUser
+                userReq.userId = userReq.id
+                return playerDbModel.update(userReq, {
+                    where: {
+                        'userId': userReq.id
+                    }
+                }).then((player) => {
+                    if (userReq.approvedUpdate) {
+                        return db.query(APPROVE_STATUS, {
+                            replacements: userReq,
+                            type: db.QueryTypes.UPDATE
+                        }).then((user) => {
+                            let merged = { ...userDetail, ...player };
+                            return merged
+                        })
+                    } else {
+                        let merged = { ...userDetail, ...player };
+                        return merged
+                    }
+                })
+            } else {
+                return savedUser
+            }
         })
     }
 }
