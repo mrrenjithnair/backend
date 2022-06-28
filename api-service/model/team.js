@@ -37,6 +37,10 @@ const team = db.define('team', {
     clubId:{
         type: sequelize.INTEGER,
         allowNull: true,
+    },
+    tournamentId:{
+        type: sequelize.INTEGER,
+        allowNull: true,
     }
     
 }, {

@@ -43,16 +43,16 @@ const tournamentDao = new function () {
         }).then((savedTournament) => {
             return savedTournament.get();
         }).then((data) => {
-            if(tournamentReq.teamTotal){
-                let teamTotal = parseInt(tournamentReq.teamTotal)
-                for (let i = 0; i < teamTotal; i++) {
-                    let obj = {
-                        name: 'team ' + (i + 1),
-                        clubId: tournamentReq.clubId
-                    }
-                    teamDbModel.create(obj)
-                }
-            }
+            // if(tournamentReq.teamTotal){
+            //     let teamTotal = parseInt(tournamentReq.teamTotal)
+            //     for (let i = 0; i < teamTotal; i++) {
+            //         let obj = {
+            //             name: 'team ' + (i + 1),
+            //             clubId: tournamentReq.clubId
+            //         }
+            //         teamDbModel.create(obj)
+            //     }
+            // }
             return data
         })
     }
@@ -90,7 +90,7 @@ const tournamentDao = new function () {
         return db.query(query, {
             replacements: tournamentReq,
             type: db.QueryTypes.SELECT,
-            logging: console.log,
+            // logging: console.log,
         }).then((tournament) => {
             return tournament
         })

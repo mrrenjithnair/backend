@@ -33,7 +33,6 @@ function authenticate(req, res) {
             let token = jwt.sign(user, config.security.secret, {
                 expiresIn: TOKEN_EXPIRATION_TIME
             })
-            console.log('token',token)
             return {
                 token: token,
                 expires: TOKEN_EXPIRATION_TIME,
@@ -45,11 +44,8 @@ function authenticate(req, res) {
 }
 
 function validateToken(req, res) {
-    console.log('validateToken')
-
     let token = req.token;
     delete token.exp;
     delete token.iat;
-    console.log(token)
     res.status(200).send(req.token);
 }

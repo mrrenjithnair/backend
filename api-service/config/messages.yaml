@@ -48,6 +48,11 @@ tournament:
     message: Tournament not already exisiting.
     errorCode: 50001
     httpErrorCode: 400
+team:
+  teamSlotFull:
+    message: Tournament team slot is full.
+    errorCode: 60001
+    httpErrorCode: 400
 security: # module name
   moduleId: 2000 # module ID. Make sure it is unique across all projects.
   invalidUserNamePasswd: # error message key

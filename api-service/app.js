@@ -23,8 +23,6 @@ var config = {
             if (apiKey) {
                 // verifies secret and checks exp
                 jwt.verify(apiKey, app.get('securitySecret'), function(err, decoded) {
-                    console.log('err',err)
-                    console.log('decoded',decoded)
                     if (err) {
                         next({
                             message: messageConfig.securityToken.noTokenProvided.message,

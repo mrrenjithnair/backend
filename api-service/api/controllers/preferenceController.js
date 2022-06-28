@@ -11,7 +11,6 @@ function getPreferenceValues(req, res) {
     let project_id = req.swagger.params.project_id.value;
 
     let getPreferenceValuesFromDao = () => {
-        console.log('renjith')
         return sportTypeDao.getPreferenceValues(project_id);
     }
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getPreferenceValuesFromDao);

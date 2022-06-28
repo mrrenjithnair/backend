@@ -77,8 +77,6 @@ const clubDao = new function () {
         if (!clubReq.superAdmin) {
             if (clubReq.assigned) {
                 query += " AND CUM.CLUBID IS NOT NULL "
-            } else {
-                query += " AND CUM.CLUBID IS NULL "
             }
 
         } else {
@@ -97,7 +95,6 @@ const clubDao = new function () {
                     clubReq.ownerId = admin.id
                     query2 += " AND U.ID = :ownerId "
                     query2 += " GROUP BY C.ID "
-                    console.log("=====i=====", i)
                     db.query(query2, {
                         replacements: clubReq,
                         type: db.QueryTypes.SELECT
@@ -116,7 +113,6 @@ const clubDao = new function () {
                         }
                     })
                 }).then((data)=>{
-                    console.log(adminArray)
                     return adminArray
                 })
             }else{
