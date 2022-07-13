@@ -21,6 +21,18 @@ const GET_MY_TOURNAMENT_LIST = " SELECT * FROM TOURNAMENT T  " +
     " INNER JOIN TEAM_PLAYER_MAPPING TPM ON TPM.TEAM_ID  = TM.ID " +
     " WHERE T.DELETEDAT IS NULL  " 
 
+
+const GET_TOURNAMENT_DETAIL =  " SELECT T.ID tournamentId, T.NAME name, T.LOGO logo, T.STARTDATE startDate, T.ENDDATE endDate, T.TEAMTOTAL teamTotal, T.MEMBERTOTAL memberTotal, T.CLUBID clubId " +
+    " FROM TOURNAMENT T " +
+    " INNER JOIN CLUB C ON C.ID = T.CLUBID" +
+    " WHERE T.ID = :tournamentId " 
+
+const GET_TOURNAMENT_TEAM_DETAIL = " SELECT TE.NAME teamName, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, TE.LOGO teamLogo, TE.OWNERID ownerId FROM TEAM TE " +
+    " INNER JOIN TOURNAMENT T ON T.ID = TE.TOURNAMENTID  " +
+    " INNER JOIN USER U ON U.ID = TE.OWNERID  " +
+    " where t.deletedat is null " +
+    " and TE.TOURNAMENTID = :tournamentId " 
+
 const tournamentDao = new function () {
     this.insertOrUpdateTournament = function (data) {
         if (data.id) {
@@ -91,6 +103,25 @@ const tournamentDao = new function () {
             replacements: tournamentReq,
             type: db.QueryTypes.SELECT,
             // logging: console.log,
+        }).then((tournament) => {
+            return tournament
+        })
+    }
+    this.getTournamentDetails = function (tournamentReq) {
+        let query = GET_TOURNAMENT_DETAIL
+        return db.query(query, {
+            replacements: tournamentReq,
+            type: db.QueryTypes.SELECT,
+            // logging: console.log,
+        }).then((tournament) => {
+            return db.query(GET_TOURNAMENT_TEAM_DETAIL, {
+                replacements: tournamentReq,
+                type: db.QueryTypes.SELECT,
+                // logging: console.log,
+            }).then((team)=>{
+                tournament[0].teams = team
+                return tournament
+            })
         }).then((tournament) => {
             return tournament
         })
