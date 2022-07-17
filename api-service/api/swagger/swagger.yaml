@@ -149,6 +149,11 @@ paths:
            type: string
            in: query
            required: false
+         - name: auctionPending
+           type: string
+           in: query
+           required: false
+        
       responses:
         "200":
           description: Success

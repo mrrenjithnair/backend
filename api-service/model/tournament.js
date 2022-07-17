@@ -43,7 +43,12 @@ const tournament = db.define('tournament', {
     clubId:{
         type: sequelize.INTEGER,
         allowNull: false,
+    },
+    auctionPending:{
+        type: sequelize.INTEGER,
+        allowNull: false,
     }
+    
 }, {
     timestamps: true,
     paranoid: true,
