@@ -8,8 +8,8 @@ module.exports = {
     getPlayerForAuction: getPlayerForAuction,
 };
 
-function insertOrUpdatePlayer(req, res) {
-    let data = req.swagger.params.player.value;
+function insertOrUpdateAuction(req, res) {
+    let data = req.swagger.params.auctionPlayer.value;
     let insertOrUpdateAuction = () => {
         return auctionDao.insertOrUpdateAuction(data)
     }

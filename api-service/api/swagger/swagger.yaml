@@ -403,13 +403,13 @@ paths:
       security:
         - api_key: [ ]
       description: insert or update club admin
-      operationId: clubAdminInsertOrUpdate
+      operationId: insertOrUpdateAuction
       parameters:
-        - name: clubAdmin
+        - name: auctionPlayer
           in: body
           required: true
           schema:
-            $ref: "#/definitions/clubAdmin"
+            $ref: "#/definitions/auctionPlayer"
       responses:
         "200":
           description: Success
@@ -540,6 +540,22 @@ definitions:
         type: integer
       endDate:
         type: integer
+  auctionPlayer:
+    required:
+    - teamId
+    - tournamentId
+    - playerUserId
+    - requestId
+    properties:
+      teamId:
+        type: integer
+      tournamentId:
+        type: integer
+      playerUserId:
+        type: integer
+      requestId:
+        type: integer
+      
        
   SPSuccessResponse:
     description: HTTP 200 success response. This is used for all success responses.
