@@ -374,6 +374,51 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/SPFailureResponse"
+  /auctionPlayer:
+    x-swagger-router-controller: auctionController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getPlayerForAuction
+      description: get Player For Auction
+      parameters:
+        - name: clubId
+          type: string
+          in: query
+          required: true
+        - name: tournamentId
+          type: string
+          in: query
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
+    post:
+      security:
+        - api_key: [ ]
+      description: insert or update club admin
+      operationId: clubAdminInsertOrUpdate
+      parameters:
+        - name: clubAdmin
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/clubAdmin"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
 
 
   /swagger:

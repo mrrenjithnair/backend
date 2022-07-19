@@ -19,6 +19,7 @@ const team_player_mapping = db.define('team_player_mapping', {
         type: sequelize.INTEGER,
         allowNull: false,
     },
+
 }, {
     timestamps: true,
     paranoid: true,
