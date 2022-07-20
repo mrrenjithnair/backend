@@ -52,10 +52,10 @@ const requestDao = new function () {
             })
     }
     this.updateRequest = function (requestObj) {
-
-        return requestDbModel.update(requestObj, {
+        let data = { id: requestObj.id, approved: requestObj.approved}
+        return requestDbModel.update(data, {
             where: {
-                'id': requestObj.id
+                'id': data.id
             }
         }).then((requestDetails) => {
             if (requestObj.approved == 1) {
@@ -64,7 +64,8 @@ const requestDao = new function () {
                     type: db.QueryTypes.SELECT,
                     // logging: console.log,
                 }).then((count) => {
-                    if (count && count.length > 0 && count[0].TEAMCOUNT <    count[0].TEAMTOTAL) {
+                    if(requestObj.type == 'tournament') return count
+                    if (count && count.length > 0 && count[0].TEAMCOUNT <    count[0].TEAMTOTAL ) {
                         let obj = {
                             name: requestObj.teamName,
                             logo: requestObj.logo,
