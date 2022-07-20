@@ -19,15 +19,20 @@ const team_player_mapping = db.define('team_player_mapping', {
         type: sequelize.INTEGER,
         allowNull: false,
     },
+    bidAmount:{
+        type: sequelize.INTEGER,
+        allowNull: false,
+    },
 
-}, {
-    timestamps: true,
-    paranoid: true,
+},{
+    timestamps: false,
+    paranoid: false,
     underscored: false,
     freezeTableName: true,
-    tableName: 'team_player_mapping'
+    tableName: 'team_player_mapping',
+    version: false
 });
-
+team_player_mapping.removeAttribute('id')
 module.exports = {
     team_player_mapping: team_player_mapping
 };

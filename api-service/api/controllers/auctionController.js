@@ -17,9 +17,10 @@ function insertOrUpdateAuction(req, res) {
 }
 
 function getPlayerForAuction(req, res) {
-    let data = req.swagger.params.clubId
-    
-    .value;
+    let clubId = req.swagger.params.clubId.value
+    let tournamentId = req.swagger.params.tournamentId.value
+    console.log(tournamentId,clubId)
+    let data = { clubId: parseInt(clubId), tournamentId: parseInt(tournamentId) }
     let getPlayerForAuction = () => {
         return auctionDao.getPlayerForAuction(data)
     }
