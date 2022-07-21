@@ -12,6 +12,9 @@ const GET_PLAYER_LIST = " select u.id, C.ID clubId, u.firstName, u.lastName, u.d
     " inner join sports s on s.id = p.sportsTypeId " +
     " left outer join club_player_mapping spm on spm.playerId = u.id " +
     " left outer join club c on c.id = spm.clubId " +
+    " left outer join tournament t on t.clubId = c.id " +
+    " left outer join team te on te.tournamentId = t.id " +
+    " left outer join team_player_mapping tpm on tpm.teamId = te.id " +
     " where u.roleId = 3 and u.deletedAt is null " 
 
 const playerDao = new function () {
@@ -19,6 +22,9 @@ const playerDao = new function () {
         let query = GET_PLAYER_LIST
         if(clubReq.clubId){
             query += " and c.id = :clubId "
+        }
+        if(clubReq.teamId){
+            query += " and te.id = :teamId "
         }
         return db.query(query, {
             replacements: clubReq,

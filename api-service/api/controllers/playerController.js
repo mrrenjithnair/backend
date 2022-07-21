@@ -13,8 +13,11 @@ module.exports = {
 
 function getPlayerList(req, res) {
     let clubId = req.swagger.params.clubId.value;
+    let teamId = req.swagger.params.teamId.value;
     clubId = clubId ? parseInt(clubId): null
-    let obj ={clubId}
+    teamId = teamId ? parseInt(teamId): null
+    
+    let obj ={clubId,teamId}
     let getPlayerListFromDao = () => {
         return playerDao.getPlayerList(obj)
     }
