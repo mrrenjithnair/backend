@@ -26,6 +26,7 @@ const playerDao = new function () {
         if(clubReq.teamId){
             query += " and te.id = :teamId "
         }
+            query += " group by u.id "
         return db.query(query, {
             replacements: clubReq,
             type: db.QueryTypes.SELECT
