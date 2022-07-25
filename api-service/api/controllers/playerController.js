@@ -14,12 +14,21 @@ module.exports = {
 function getPlayerList(req, res) {
     let clubId = req.swagger.params.clubId.value;
     let teamId = req.swagger.params.teamId.value;
+    let userId = req.swagger.params.userId.value
+    let playerId = req.swagger.params.playerId.value
+
     clubId = clubId ? parseInt(clubId): null
     teamId = teamId ? parseInt(teamId): null
+    userId = userId ? parseInt(userId): null
+    playerId = playerId ? parseInt(playerId): null
     
-    let obj ={clubId,teamId}
+    let obj = { clubId, teamId, userId, playerId }
     let getPlayerListFromDao = () => {
-        return playerDao.getPlayerList(obj)
+        if (playerId) {
+            return playerDao.getPlayerList(obj)
+        } else {
+            return userDao.getUserDetail(obj)
+        }
     }
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getPlayerListFromDao);
 

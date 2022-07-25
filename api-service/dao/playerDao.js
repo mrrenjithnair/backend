@@ -6,7 +6,7 @@ const config = require('../config.js').getMessageConfig();
 const userDbModel = require('../model/user.js').user;
 const playerDbModel = require('../model/player.js').player;
 
-const GET_PLAYER_LIST = " select u.id, C.ID clubId, u.firstName, u.lastName, u.dob, u.username, u.roleId, u.profilePicture, s.name sportName, s.type sportType, p.category, u.location, u.village, p.playerType, spm.approved, " +
+const GET_PLAYER_LIST = " select u.id, C.ID clubId, u.firstName, u.lastName, u.mobile, u.dob, u.username, u.roleId, u.profilePicture, s.name sportName, s.type sportType, p.category, u.location, u.village, p.playerType, spm.approved, " +
     " u.roleId, u.emailId from user u " +
     " inner join player p on u.id = p.userId " +
     " inner join sports s on s.id = p.sportsTypeId " +
@@ -25,6 +25,12 @@ const playerDao = new function () {
         }
         if(clubReq.teamId){
             query += " and te.id = :teamId "
+        }
+        if (clubReq.playerId) {
+            query += " and u.id = :playerId "
+        }
+        if (clubReq.userId) {
+            query += " and u.id = :userId "
         }
             query += " group by u.id "
         return db.query(query, {
