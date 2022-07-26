@@ -133,7 +133,28 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/SPFailureResponse"
-
+  /team:
+    x-swagger-router-controller: playerController
+    get:
+      security:
+        - api_key: [ ]
+      operationId: getTeamsList
+      description: get teams List
+      parameters:
+         - name: playerId
+           type: string
+           in: query
+           required: false
+           
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/SPSuccessResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/SPFailureResponse"
   /tournament:
     x-swagger-router-controller: tournamentController
     get:

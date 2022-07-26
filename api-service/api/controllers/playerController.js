@@ -7,6 +7,7 @@ const modelUtils = require('../../modelUtils.js');
 module.exports = {
     getPlayerList: getPlayerList,
     insertOrUpdatePlayer: insertOrUpdatePlayer,
+    getTeamsList: getTeamsList,
 
 };
 
@@ -42,6 +43,15 @@ function insertOrUpdatePlayer(req, res) {
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, insertOrUpdatePlayerFromDao);
 
 }
+function getTeamsList(req, res) {
+    let playerId = req.swagger.params.playerId.value;
+    let getTeamsListFromDao = () => {
+        return playerDao.getTeamsList({playerId})
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getTeamsListFromDao);
+
+}
+
 
 
 
