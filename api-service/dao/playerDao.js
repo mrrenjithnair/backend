@@ -17,7 +17,7 @@ const GET_PLAYER_LIST = " select u.id, C.ID clubId, u.firstName, u.lastName, u.m
     " left outer join team_player_mapping tpm on tpm.teamId = te.id " +
     " where u.roleId = 3 and u.deletedAt is null " 
 
-const GET_PLAYER_TEAM_LIST = " SELECT T.NAME teamName, T.ID teamid, tpm.bidAmount from user u " +
+const GET_PLAYER_TEAM_LIST = " SELECT T.NAME teamName, T.ID teamid, tpm.bidAmount, t.logo from user u " +
     " INNER JOIN team_player_mapping TPM ON TPM.userId = u.id " +
     " INNER JOIN team t ON TPM.teamId = t.id "  
 
