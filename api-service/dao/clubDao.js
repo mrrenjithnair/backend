@@ -21,6 +21,12 @@ const GET_CLUB_LIST = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerNa
     " LEFT OUTER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = C.ID AND CPM.PLAYERID = :userId" +
     " WHERE C.DELETEDAT IS NULL "
 
+const GET_CLUB_LIST_ADMIN = " SELECT C.*, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, U.ID ownerId FROM CLUB C  " +
+    " INNER JOIN CLUB_USER_MAPPING CUM ON CUM.CLUBID = C.ID " +
+    " INNER JOIN USER U ON U.ID = CUM.USERID " +
+    " WHERE C.DELETEDAT IS NULL "
+
+    
 const GET_CLUB_ADMIN_LIST = " SELECT * FROM USER U " +
     " LEFT OUTER JOIN CLUB_USER_MAPPING CUM ON CUM.USERID = U.ID " +
     " WHERE U.ROLEID = 2 " 
@@ -91,7 +97,7 @@ const clubDao = new function () {
             let adminArray = []
             if (adminLists && adminLists.length > 0 && clubReq.superAdmin) {
            return promise.mapSeries(adminLists, async (admin, i) => {
-                    query2 = GET_CLUB_LIST
+                    query2 = GET_CLUB_LIST_ADMIN
                     clubReq.ownerId = admin.id
                     query2 += " AND U.ID = :ownerId "
                     query2 += " GROUP BY C.ID "

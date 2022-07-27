@@ -25,10 +25,11 @@ function getPlayerList(req, res) {
     
     let obj = { clubId, teamId, userId, playerId }
     let getPlayerListFromDao = () => {
-        if (playerId) {
-            return playerDao.getPlayerList(obj)
-        } else {
+        if (clubId && userId && !playerId) {
             return userDao.getUserDetail(obj)
+        } else{
+            return playerDao.getPlayerList(obj)
+
         }
     }
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getPlayerListFromDao);
