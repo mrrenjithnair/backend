@@ -4,16 +4,17 @@ const auctionDao = require('../../dao/auctionDao');
 const modelUtils = require('../../modelUtils.js');
 
 module.exports = {
-    insertOrUpdateAuction: insertOrUpdateAuction,
+    insertOrUpdatePlayerAuction: insertOrUpdatePlayerAuction,
     getPlayerForAuction: getPlayerForAuction,
+    insertOrUpdateAuction: insertOrUpdateAuction
 };
 
-function insertOrUpdateAuction(req, res) {
+function insertOrUpdatePlayerAuction(req, res) {
     let data = req.swagger.params.auctionPlayer.value;
-    let insertOrUpdateAuction = () => {
-        return auctionDao.insertOrUpdateAuction(data)
+    let insertOrUpdatePlayerAuction = () => {
+        return auctionDao.insertOrUpdatePlayerAuction(data)
     }
-    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, insertOrUpdateAuction);
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, insertOrUpdatePlayerAuction);
 }
 
 function getPlayerForAuction(req, res) {
@@ -27,3 +28,10 @@ function getPlayerForAuction(req, res) {
     controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, getPlayerForAuction);
 }
 
+function insertOrUpdateAuction(req, res) {
+    let data = req.swagger.params.auction.value;
+    let insertOrUpdateAuction = () => {
+        return auctionDao.insertOrUpdateAuction(data)
+    }
+    controllerUtils.applyTxAndHandleModelResponse(db, req, res, __filename, insertOrUpdateAuction);
+}
