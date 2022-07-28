@@ -7,12 +7,13 @@ const tournamentDbModel = require('../model/tournament.js').tournament;
 const teamDbModel = require('../model/team.js').team;
 
 
-const GET_TOURNAMENT_LIST = " SELECT t.*,  " +
+const GET_TOURNAMENT_LIST = " SELECT t.*, " +
     " CASE WHEN R.TYPE='team' THEN 1 ELSE 0 END requestedTeam, " +
     " CASE WHEN R.TYPE='tournament' THEN 1 ELSE 0 END requestedTournament " +
     " FROM TOURNAMENT T " +
     " INNER JOIN CLUB_PLAYER_MAPPING CPM ON CPM.CLUBID = T.CLUBID AND CPM.APPROVED = 1 " +
     " INNER JOIN USER U ON U.ID = CPM.PLAYERID " +
+    " LEFT OUTER JOIN AUCTION A ON A.TOURNAMENTID= T.ID " +
     " LEFT OUTER JOIN REQUEST R ON R.TOURNAMENTID= T.ID AND R.USERID = U.ID" +
     " WHERE T.DELETEDAT IS NULL"
 
@@ -22,9 +23,10 @@ const GET_MY_TOURNAMENT_LIST = " SELECT t.* FROM TOURNAMENT T  " +
     " WHERE T.DELETEDAT IS NULL  "
 
 
-const GET_TOURNAMENT_DETAIL = " SELECT T.ID tournamentId, T.NAME name, T.LOGO logo, T.STARTDATE startDate, T.ENDDATE endDate, T.TEAMTOTAL teamTotal, T.MEMBERTOTAL memberTotal, T.CLUBID clubId " +
+const GET_TOURNAMENT_DETAIL = " SELECT A.*, T.ID tournamentId, T.NAME name, T.LOGO logo, T.STARTDATE startDate, T.ENDDATE endDate, T.TEAMTOTAL teamTotal, T.MEMBERTOTAL memberTotal, T.CLUBID clubId " +
     " FROM TOURNAMENT T " +
     " INNER JOIN CLUB C ON C.ID = T.CLUBID" +
+    " LEFT OUTER JOIN AUCTION A ON A.TOURNAMENTID= T.ID " +
     " WHERE T.ID = :tournamentId "
 
 const GET_TOURNAMENT_TEAM_DETAIL = " SELECT TE.ID teamId, TE.NAME teamName, CONCAT(U.FIRSTNAME, ' ', U.LASTNAME) ownerName, TE.LOGO teamLogo, TE.OWNERID ownerId FROM TEAM TE " +
@@ -99,6 +101,7 @@ const tournamentDao = new function () {
         }
         if (tournamentReq.auctionPending) {
             query += " AND  (T.AUCTIONCOMPLETED IS NULL OR T.AUCTIONCOMPLETED = 0) "
+            query += " AND  A.ID IS NOT NULL "
         }
 
         query += " GROUP BY T.ID "

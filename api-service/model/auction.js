@@ -26,7 +26,10 @@ const auction = db.define('auction', {
             }
         }
     },
-    date: {
+    tournamentId: {
+        type: sequelize.BIGINT,
+        allowNull: false,
+    },    date: {
         type: sequelize.BIGINT,
         allowNull: false,
     },

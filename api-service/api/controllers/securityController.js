@@ -27,6 +27,8 @@ function authenticate(req, res) {
                     profilePicture: userModel[0].profilePicture,
                     roleId: userModel[0].roleId,
                     privileges: userModel[0].privileges, 
+                    playerType: userModel[0].playerType, 
+                    category: userModel[0].category, 
                     club: userModel[0].club, 
                 }
             }

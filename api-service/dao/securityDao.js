@@ -13,8 +13,9 @@ const modelUtils = require('./../modelUtils.js');
 
 
 //Do not change this query to uppercase since it will affect the token structure
-const AUTHENTICATE_QUERY = " SELECT U.*, R.privileges  FROM USER U " +
+const AUTHENTICATE_QUERY = " SELECT p.*, U.*, R.privileges  FROM USER U " +
     " INNER JOIN ROLE R ON  R.ID = U.ROLEID " +
+    " LEFT OUTER JOIN PLAYER P ON  P.USERID = U.ID " +
     " where (u.username = :username or u.emailId = :username) and u.deletedAt is null ";
 
 const CLUB_LIST = " SELECT c.* FROM CLUB C " +
